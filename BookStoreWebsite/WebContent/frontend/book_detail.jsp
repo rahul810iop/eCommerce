@@ -12,8 +12,8 @@
 <body>
 	<jsp:directive.include file="header.jsp" />
 
-	<div align="center">
-		<table align="center" style="border:0">
+	<div class="center">
+		<table class="center" style="border:0">
 			<tr>
 				<td colspan="3" align="left">
 					<p id="book-title"><h2>${book.title}</h2></p>
