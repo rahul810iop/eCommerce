@@ -6,14 +6,15 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>${book.title}- Online Books Store</title>
+<link rel="icon" type="image/jpg" href="images/book.jpg"><link rel="icon" type="image/jpg" href="images/book.jpg">    
 <link rel="stylesheet" href="css/style.css">
 <script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
 </head>
 <body>
 	<jsp:directive.include file="header.jsp" />
 
-	<div class="center">
-		<table class="center" style="border:0">
+	<div align="center">
+		<table align="center" style="width:80%", margin="0">
 			<tr>
 				<td colspan="3" align="left">
 					<p id="book-title"><h2>${book.title}</h2></p>

@@ -3,9 +3,6 @@ package com.bookstall.service;
 import java.io.IOException;
 import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -13,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.bookstall.dao.CategoryDAO;
 import com.bookstoredb.entity2.Category;
-import com.bookstoredb.entity2.Users;
+import static com.bookstall.service.CommonUtility.*;
 
 public class CategoryServices {
 	private CategoryDAO categoryDAO;
@@ -33,11 +30,7 @@ public class CategoryServices {
         if(message != null) {
             request.setAttribute("message", message);
         }
-        String listPage = "category_list.jsp";
-	    RequestDispatcher requestDispatcher = request.getRequestDispatcher(listPage);
-	    
-	    requestDispatcher.forward(request, response);
-    
+        forwardToPage("category_list.jsp", request, response);
     }
 
     public void listCategory() throws ServletException, IOException {
@@ -50,12 +43,7 @@ public class CategoryServices {
 		if(existCategory != null) {
 			String message = "Could not create category."+"A category with name " 
 		+ name + " already exists.";
-		request.setAttribute("message", message);
-		
-        RequestDispatcher requestDispatcher = request.getRequestDispatcher("message.jsp");
-	    
-	    requestDispatcher.forward(request, response);
-    
+		showMessageBackend(message, request, response);
 		}
 		else {
 			Category newCategory = new Category(name);
@@ -74,13 +62,11 @@ public class CategoryServices {
 		if (category == null) {
 			editPage = "message.jsp";
 			String errorMessage = "Could not find category with ID " + categoryId;
-			request.setAttribute("message", errorMessage);
+			showMessageBackend(errorMessage, request, response);
 		} else {
-			request.setAttribute("category", category);			
+			request.setAttribute("category", category);
+			forwardToPage("category_form.jsp", request, response);
 		}
-		
-		RequestDispatcher requestDispatcher = request.getRequestDispatcher(editPage);
-		requestDispatcher.forward(request, response);
 		
 	}
 
@@ -119,8 +105,9 @@ public class CategoryServices {
 			message = "Could not find user with ID " + categoryId
 					+ ", or it might have been deleted by another admin";
 			
-			request.setAttribute("message", message);
-			request.getRequestDispatcher("message.jsp").forward(request, response);			
+			showMessageBackend(message, request, response);	
+			return;
+			
 		} else {
 			categoryDAO.delete(categoryId);
 			listCategory(message);

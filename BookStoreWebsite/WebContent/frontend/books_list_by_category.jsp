@@ -13,7 +13,7 @@
 <body>
      <jsp:directive.include file="header.jsp" />
      
-     <div class="center">
+     <div align="center">
          <h2>${category.name}</h2>
      </div>
  
