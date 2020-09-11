@@ -36,7 +36,9 @@ import javax.persistence.UniqueConstraint;
      @NamedQuery(name = "Book.listNew", query = "Select b From Book b ORDER BY b.publishDate DESC"),
      @NamedQuery(name = "Book.search", query = "Select b FROM Book b where b.title  LIKE '%' || :keyword || '%'"
      + " OR b.author LIKE '%' || :keyword || '%'"
- 			+ " OR b.description LIKE '%' || :keyword || '%'")
+ 			+ " OR b.description LIKE '%' || :keyword || '%'"),
+     @NamedQuery(name = "Book.countByCategory", query = "SELECT COUNT(b) FROM Book b JOIN "
+  			+ "Category c ON b.category.categoryId = c.categoryId AND c.categoryId = :catId")
 })
 public class Book implements java.io.Serializable {
 

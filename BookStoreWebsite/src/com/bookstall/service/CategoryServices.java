@@ -8,6 +8,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.bookstall.dao.BookDAO;
 import com.bookstall.dao.CategoryDAO;
 import com.bookstoredb.entity2.Category;
 import static com.bookstall.service.CommonUtility.*;
@@ -101,17 +102,22 @@ public class CategoryServices {
 		Category category = categoryDAO.get(categoryId);
 		String message = "Category has been deleted successfully";
 		
-		if (category == null) {
-			message = "Could not find user with ID " + categoryId
+		BookDAO bookDAO = new BookDAO();
+		long numberOfBooks = bookDAO.countByCategory(categoryId);
+		
+		if(numberOfBooks > 0) {
+			message = "Could not delete the category (ID: %d) as it contains some books";
+		    message = String.format(message, categoryId);
+		}
+		else if (category == null) {
+			message = "Could not find category with ID " + categoryId
 					+ ", or it might have been deleted by another admin";
-			
-			showMessageBackend(message, request, response);	
-			return;
 			
 		} else {
 			categoryDAO.delete(categoryId);
-			listCategory(message);
+			//listCategory(message);
 		}	
+		listCategory(message);
 	}
 }
 		
