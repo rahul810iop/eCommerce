@@ -38,4 +38,12 @@ public class CustomerDAO extends JpaDAO<Customer> implements GenericDAO<Customer
 		return super.countWithNamedQuery("Customer.countAll");
 	}
 
+	public Customer findByEmail(String email) {
+		List<Customer> result = super.findWithNamedQuery("Customer.findByEmail", "email", email);
+	    
+		if(!result.isEmpty()) {
+	    	return result.get(0);
+	    }
+	    return null;
+	}
 }

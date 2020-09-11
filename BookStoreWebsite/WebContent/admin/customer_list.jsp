@@ -20,7 +20,7 @@
      </div>
      
      <div align="center">
-          <h3><a href = "new_customer">Create new customer</a></h3>
+          <h3><a href = "customer_form.jsp">Create new customer</a></h3>
      </div>
      
      <c:if test="${message != null }">
