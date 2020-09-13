@@ -44,7 +44,7 @@
 			</tr>
 			<tr>
 				<td align="right">Full Name:</td>
-				<td align="left"><input type="text" id="fullName" name="fullName" size="45" value="${customer.fullName}" /></td>
+				<td align="left"><input type="text" id="fullName" name="fullName" size="45" value="${customer.fullname}" /></td>
 			</tr>
 			<tr>
 				<td align="right">Password:</td>
@@ -52,7 +52,7 @@
 			</tr>
 			<tr>
 				<td align="right">Confirm password:</td>
-				<td align="left"><input type="password" id="confirmPassword" name="confirmPassword" size="45" />
+				<td align="left"><input type="password" id="confirmPassword" name="confirmPassword" size="45" value="${customer.password}"/>
 			</tr>	
 			<tr>
 				<td align="right">Phone No.:</td>
@@ -73,7 +73,7 @@
 			<tr>
 				<td align="right">Address:</td>
 				<td align="left">
-					<textarea rows="5" cols="50" name="address" id="address">${book.address}</textarea>
+					<textarea rows="5" cols="50" name="address" id="address">${customer.address}</textarea>
 				</td>
 			</tr>
 			

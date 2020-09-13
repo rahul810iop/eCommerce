@@ -41,7 +41,7 @@ public class CustomerServices {
 		requestDispatcher.forward(request, response);	
     }
     
-	public void createCustomer(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public void createCustomer() throws ServletException, IOException {
 		String email = request.getParameter("email");
 		Customer existCustomer = customerDAO.findByEmail(email);
 		if(existCustomer != null) {
@@ -54,7 +54,7 @@ public class CustomerServices {
 			String password = request.getParameter("password");
 			String phone = request.getParameter("phone");
 			String city = request.getParameter("city");
-	        String zipCode = request.getParameter("zipCode");
+	        String zipcode = request.getParameter("zipcode");
 	        String country = request.getParameter("country");
 	        String address = request.getParameter("address");
 	        
@@ -64,7 +64,7 @@ public class CustomerServices {
 	        newCustomer.setPassword(password);
 	        newCustomer.setPhone(phone);
 	        newCustomer.setCity(city);
-	        newCustomer.setZipcode(zipCode);
+	        newCustomer.setZipcode(zipcode);
 	        newCustomer.setCountry(country);
 	        newCustomer.setAddress(address);
 	        
@@ -72,5 +72,16 @@ public class CustomerServices {
 			
 			listCustomers("New customer has been created successfully");
 			}
+	}
+
+	public void editCustomer() throws ServletException, IOException {
+		Integer customerId = Integer.parseInt(request.getParameter("id"));
+		Customer customer = customerDAO.get(customerId);
+	     
+		request.setAttribute("customer", customer);
+		
+		String editPage = "customer_form.jsp";
+		RequestDispatcher requestDispatcher = request.getRequestDispatcher(editPage);
+		requestDispatcher.forward(request, response);
 	}
 }

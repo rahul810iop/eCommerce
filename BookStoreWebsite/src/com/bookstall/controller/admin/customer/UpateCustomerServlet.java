@@ -7,15 +7,18 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.bookstall.service.CustomerServices;
-
-@WebServlet("/admin/create_customer")
-public class CreateCustomerServlet extends HttpServlet {
+/**
+ * Servlet implementation class UpateCustomerServlet
+ */
+@WebServlet("/admin/update_customer")
+public class UpateCustomerServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		CustomerServices customerServices = new CustomerServices(request, response);
-		customerServices.createCustomer();
+		// TODO Auto-generated method stub
 	}
 
 }
