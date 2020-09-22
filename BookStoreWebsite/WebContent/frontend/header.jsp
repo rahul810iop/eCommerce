@@ -1,5 +1,6 @@
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
 <div class="center">
+<center>
       <div>
          <a href="${pageContext.request.contextPath}">
               <img src="${pageContext.request.contextPath}/images/logo_3.jpg" width="800" height="200" />    
@@ -31,4 +32,5 @@
           </c:if>
           </c:forEach>
       </div>
+</center>
 </div>          

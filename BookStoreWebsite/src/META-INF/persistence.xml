@@ -8,7 +8,7 @@
 	<persistence-unit name="BookStoreWebsite">
 		<properties>
 			<property name="javax.persistence.jdbc.url"
-				value="jdbc:mysql://localhost:3306/bookstoredb?useSSL=false" />
+	value="jdbc:mysql://localhost:3306/bookstoredb?allowPublicKeyRetrieval=true&amp;useSSL=false" />
 			<property name="javax.persistence.jdbc.user" value="root" />
 			<property name="javax.persistence.jdbc.password" value="qwertyuiop" />
 			<property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver" />
