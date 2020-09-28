@@ -16,7 +16,7 @@
 		          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 		          <a href="frontend/login.jsp">Sign In</a>
 		          |
-		          <a href="Register.jsp">Register</a>
+		          <a href="register">Register</a>
 		          |
 		          <a href="view_cart.jsp">Cart</a>
           </form>

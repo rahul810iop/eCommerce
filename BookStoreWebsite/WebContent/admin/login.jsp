@@ -34,14 +34,12 @@
                 </tr>
                 <tr>
                     <td colspan="2" align="center">
+                    	<button id="forgotPassword">Forgot Password?</button>&nbsp;&nbsp;&nbsp;
+                    	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         <button type="submit">Login</button>
                     </td>
                 </tr>
-                <tr>
-                   <td>
-                      <a href="forgot.jsp">Forgot Password?</a>
-                   </td>
-                </tr>
+                
            </table>
         </form>
     </div>

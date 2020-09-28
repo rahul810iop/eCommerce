@@ -2,7 +2,9 @@ package com.bookstall.dao;
 
 import static org.junit.Assert.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -93,5 +95,17 @@ public class CustomerDAOTest {
 		Customer existCustomer = customerDAO.findByEmail(email);
 		
 		assertNotNull(existCustomer);
+	}
+	
+	@Test
+	public void testCheckLogin() {
+		
+		String email = "PrashantKumar@gmail.com";
+		String password = "236";
+		
+		Customer customer = customerDAO.checkLogin(email, password);
+		
+		System.out.println(customer.getFullname());
+		assertNotNull(customer);
 	}
 }

@@ -27,22 +27,21 @@ public class CommonFilter implements Filter {
 	public void destroy() {
 	}
 
-	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) 
+	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
-		String path = httpRequest.getRequestURI();
-	    //System.out.println("CommonFilter: " + path);
+		String path = httpRequest.getRequestURI().substring(httpRequest.getContextPath().length());
 		
-		if(!path.contains("/admin/")) {
-		    List<Category> listCategory = categoryDAO.listAll();
-		    request.setAttribute("listCategory", listCategory);
-		    System.out.println("commonFilter->doFilter");
+		if (!path.startsWith("/admin/")) {
+			List<Category> listCategory = categoryDAO.listAll();		
+			request.setAttribute("listCategory", listCategory);	
+		}
 		
-		    }
 		chain.doFilter(request, response);
 	}
 
 	public void init(FilterConfig fConfig) throws ServletException {
 	}
+
 
 }

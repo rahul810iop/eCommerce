@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Bookstall Administration</title>
+<title>Customer Profile - Online Books Store</title>
 <link rel="icon" type="image/jpg" href="images/book.jpg">
 <link rel="stylesheet" href="../css/style.css">
 </head>
@@ -13,7 +13,7 @@
      
      <div align="center">
      <br/>
-          <h3><i>${message}</i></h3>
+          <h3>Customer Profile Page</h3>
      <br/>     
      </div>
      
