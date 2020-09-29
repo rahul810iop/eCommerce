@@ -6,10 +6,10 @@
 <head>
    <meta charset="ISO-8859-1">
    <title>Customer Login</title>
-   <link rel="icon" type="image/jpg" href="../images/book.jpg">
-   <link rel="stylesheet" href="../css/style.css">
-   <script type="text/javascript" src="../js/jquery-3.3.1.min.js"></script>
-   <script type="text/javascript" src="../js/jquery.validate.min.js"></script>
+   <link rel="icon" type="image/jpg" href="images/book.jpg">
+   <link rel="stylesheet" href="css/style.css">
+   <script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
+   <script type="text/javascript" src="js/jquery.validate.min.js"></script>
 </head>
 <body>
 	
@@ -28,11 +28,11 @@
         <form id="loginForm" action="login" method="post">
            <table>
                <tr>
-                   <td>Email</td>
+                   <td>Email:</td>
                    <td><input type="text" name="email" id="email" size="20"></td>
                </tr>
                <tr>
-                    <td>Password</td>
+                    <td>Password:</td>
                     <td><input type="password" name="password" id="password" size="20"></td>
                 </tr>
                 <tr>

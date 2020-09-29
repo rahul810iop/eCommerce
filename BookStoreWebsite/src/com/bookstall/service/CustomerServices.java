@@ -172,7 +172,7 @@ public class CustomerServices extends CommonUtility{
 		    request.setAttribute("message", message);
 		    showLogin();
 		} else {
-			String profilePage = "frontend/customer_profile.jsp";
+			String profilePage = "customer_profile.jsp";
 			RequestDispatcher dispatcher = request.getRequestDispatcher(profilePage);
 			dispatcher.forward(request, response);
 		}

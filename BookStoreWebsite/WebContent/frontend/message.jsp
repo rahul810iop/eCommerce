@@ -5,7 +5,7 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Bookstall Administration</title>
-<link rel="icon" type="image/jpg" href="images/book.jpg">
+<link rel="icon" type="image/jpg" href="../images/book.jpg">
 <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
