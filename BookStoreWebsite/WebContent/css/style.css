@@ -98,3 +98,7 @@ div.book {
 	margin: 20px;
 	text-align: center;
 }
+
+table.normal {
+	border: 0;
+}

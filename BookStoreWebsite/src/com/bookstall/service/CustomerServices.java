@@ -143,8 +143,12 @@ public class CustomerServices extends CommonUtility{
         String country = request.getParameter("country");
         String address = request.getParameter("address");
         
-        
-        customer.setEmail(email);
+        if(email != null && !email.equals("")) {
+        	customer.setEmail(email);
+        }
+        if(password != null && !password.equals("")) {
+        	customer.setPassword(password);
+        }
         customer.setFullname(fullName);
         customer.setPassword(password);
         customer.setPhone(phone);
@@ -172,11 +176,30 @@ public class CustomerServices extends CommonUtility{
 		    request.setAttribute("message", message);
 		    showLogin();
 		} else {
-			String profilePage = "customer_profile.jsp";
-			RequestDispatcher dispatcher = request.getRequestDispatcher(profilePage);
-			dispatcher.forward(request, response);
+			request.getSession().setAttribute("loggedCustomer", customer);
+			
+			showCustomerProfile();
 		}
 	}
     
-    
+    public void showCustomerProfile() throws ServletException, IOException {
+    	String profilePage = "frontend/customer_profile.jsp";
+		RequestDispatcher dispatcher = request.getRequestDispatcher(profilePage);
+		dispatcher.forward(request, response);
+    }
+
+	public void showCustomerProfileFieldForm() throws ServletException, IOException {
+		String editPage = "frontend/edit_profile.jsp";
+		RequestDispatcher dispatcher = request.getRequestDispatcher(editPage);
+		dispatcher.forward(request, response);
+	}
+
+	public void updateCustomerProfile() throws ServletException, IOException {
+		Customer customer = (Customer) request.getSession().getAttribute("loggedCustomer");
+		
+		updateCustomerFieldsFromForm(customer);
+		customerDAO.update(customer);
+		
+		showCustomerProfile();
+	}
 	}
