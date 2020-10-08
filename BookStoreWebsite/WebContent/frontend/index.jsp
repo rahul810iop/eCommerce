@@ -27,8 +27,13 @@
                <a href="view_book?id=${book.bookId}">
                   <div><b>${book.title}</b></div>
                </a>   
-                  <div>Rating *****</div>
-                  <div><i>by ${book.author}</i></div>
+                  <div>
+                  		<jsp:directive.include file="book_rating.jsp" />	
+                  </div>
+                  
+                  <div>
+                  		<i>by ${book.author}</i>
+                  </div>
                   <div><b>&#8377; ${book.price}</b></div>
              </div>
           </c:forEach>

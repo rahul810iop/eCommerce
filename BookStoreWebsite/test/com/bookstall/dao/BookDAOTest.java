@@ -220,4 +220,5 @@ public class BookDAOTest {
 	
 	    assertEquals(6, numOfBooks);
 	}
+	
 }

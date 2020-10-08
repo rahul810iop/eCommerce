@@ -20,7 +20,7 @@ public class CommonUtility {
 	
 	public static void showMessageBackend(String message, HttpServletRequest request, HttpServletResponse response) 
 			   throws ServletException, IOException {
-			forwardToPage("frontend/message.jsp", message, request, response);
+			forwardToPage("admin/message.jsp", message, request, response);
 	}
 	
 	public static void forwardToPage(String page, HttpServletRequest request, HttpServletResponse response) 

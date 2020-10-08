@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.bookstall.dao.CustomerDAO;
+import com.bookstall.dao.ReviewDAO;
 import com.bookstoredb.entity2.Book;
 import com.bookstoredb.entity2.Customer;
 
@@ -95,19 +96,26 @@ public class CustomerServices extends CommonUtility{
 	public void deleteCustomer() throws ServletException, IOException {
 		Integer customerId = Integer.parseInt(request.getParameter("id"));
 		Customer customer = customerDAO.get(customerId);
+		
+		if (customer != null) {
+			ReviewDAO reviewDAO = new ReviewDAO();
+			long reviewCount = reviewDAO.countByCustomer(customerId);
 			
-			if (customer != null) {
-				customerDAO.delete(customerId);
-				
+			if (reviewCount == 0) {
+				customerDAO.delete(customerId);			
 				String message = "The customer has been deleted successfully.";
-				listCustomers(message);			
+				listCustomers(message);
 			} else {
-				String message = "Could not find customer with ID " + customerId + ", "
-						+ "or it has been deleted by another admin";
-				showMessageBackend(message, request, response);
+				String message = "Could not delete customer with ID " + customerId
+						+ " because he/she posted reviews for books.";
 				listCustomers(message);
 			}
+		} else {
+			String message = "Could not find customer with ID " + customerId + ", "
+					+ "or it has been deleted by another admin";
+			showMessageBackend(message, request, response);
 		}
+	}
 	
 	public void registerCustomer() throws ServletException, IOException {
 		String email = request.getParameter("email");
