@@ -7,8 +7,12 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
+import com.bookstall.dao.BookDAO;
 import com.bookstall.dao.ReviewDAO;
+import com.bookstoredb.entity2.Book;
+import com.bookstoredb.entity2.Customer;
 import com.bookstoredb.entity2.Review;
 
 public class ReviewServices extends CommonUtility{
@@ -83,8 +87,51 @@ public class ReviewServices extends CommonUtility{
 	}
 
 	public void showReviewForm() throws ServletException, IOException {
+		Integer bookId = Integer.parseInt(request.getParameter("book_id"));
+		BookDAO bookDAO = new BookDAO();
+		Book book = bookDAO.get(bookId);
+		
+		HttpSession session = request.getSession();
+		request.getSession().setAttribute("book", book);
+		
+		Customer customer = (Customer) session.getAttribute("loggedCustomer");
+		
+		Review existReview = reviewDAO.findByCustomerAndBook(customer.getCustomerId(), bookId);
+		
 		String targetPage = "frontend/review_form.jsp";
-		RequestDispatcher requestDispatcher = request.getRequestDispatcher(targetPage);
-		requestDispatcher.forward(request, response);
+		
+		if(existReview != null) {
+			request.setAttribute("review", existReview);
+			targetPage = "frontend/review_info.jsp";
+		}
+
+			RequestDispatcher requestDispatcher = request.getRequestDispatcher(targetPage);
+			requestDispatcher.forward(request, response);
+	}
+
+	public void submitReview() throws ServletException, IOException {
+		Integer bookId = Integer.parseInt(request.getParameter("bookId"));
+		Integer rating = Integer.parseInt(request.getParameter("rating"));
+		String headline = request.getParameter("headline");
+		String comment = request.getParameter("comment");
+	
+		Review newReview = new Review();
+		newReview.setHeadline(headline);
+		newReview.setComment(comment);
+		newReview.setRating(rating);
+		
+		Book book = new Book();
+		book.setBookId(bookId);
+		
+		newReview.setBook(book);
+		
+		Customer customer = (Customer) request.getSession().getAttribute("loggedCustomer");
+		newReview.setCustomer(customer);
+		
+		reviewDAO.create(newReview);
+		
+		String messagePage = "frontend/review_done.jsp";
+		RequestDispatcher dispatcher = request.getRequestDispatcher(messagePage);
+		dispatcher.forward(request, response);
 	}
 }
