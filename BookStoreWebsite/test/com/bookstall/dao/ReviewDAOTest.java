@@ -107,4 +107,15 @@ public class ReviewDAOTest {
 		
 		assertEquals(countReviewsByBook, 2);
 	}
+	
+	@Test
+	public void testFindByCustomerAndBook() {
+		int bookId = 42;
+		int customerId = 13;
+		
+		Review review = reviewDAO.findByCustomerAndBook(customerId, bookId);
+	
+		System.out.println(review.getHeadline() + "  " + review.getRating());
+		assertTrue(review != null);
+	}
 }

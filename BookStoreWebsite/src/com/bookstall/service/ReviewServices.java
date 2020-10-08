@@ -81,4 +81,10 @@ public class ReviewServices extends CommonUtility{
 			showMessageBackend(message, request, response);
 		}		
 	}
+
+	public void showReviewForm() throws ServletException, IOException {
+		String targetPage = "frontend/review_form.jsp";
+		RequestDispatcher requestDispatcher = request.getRequestDispatcher(targetPage);
+		requestDispatcher.forward(request, response);
+	}
 }
