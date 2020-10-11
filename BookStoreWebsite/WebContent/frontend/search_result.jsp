@@ -50,7 +50,7 @@
                   </div>
                   <div style="display: inline-block; margin: 20px ; vertical-align: top;">
                       <b>&#8377; ${book.price}</b>
-                      <h3><a href="">Add To Cart</a></h3>
+                      <h3><a href="add_to_cart?book_id=${book.bookId}">Add To Cart</a></h3>
                   </div>
              </div>
           </c:forEach>

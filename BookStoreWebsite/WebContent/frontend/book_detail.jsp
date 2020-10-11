@@ -91,6 +91,10 @@
 			$("#buttonWriteReview").click(function() {
 				window.location = 'write_review?book_id=' + ${book.bookId};
 			});
+			
+			$("#buttonAddToCart").click(function() {
+				window.location = 'add_to_cart?book_id=' + ${book.bookId};
+			});
 		});
 	</script>
 	
