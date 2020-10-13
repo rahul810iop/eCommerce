@@ -7,7 +7,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.bookstall.dao.BookDAO;
 import com.bookstoredb.entity2.Book;
 
 @WebServlet("/remove_from_cart")
@@ -22,15 +21,17 @@ public class RemoveBookFromCart extends HttpServlet {
 			throws ServletException, IOException {
 		Integer bookId = Integer.parseInt(request.getParameter("book_id"));
 		
+		System.out.println(bookId);
 		Object cartObject = request.getSession().getAttribute("cart");
 		
-		ShoppingCart shoppingCart =  (ShoppingCart) cartObject;
+		ShoppingCart shoppingCart = (ShoppingCart) cartObject;
+		System.out.println(shoppingCart.getItems());
 		
 		shoppingCart.removeItem(new Book(bookId));
 		
+		System.out.println(shoppingCart.getItems());
 		String cartPage = request.getContextPath().concat("/view_cart");
 		response.sendRedirect(cartPage);
-		//System.out.println("done");
 	}
 
 }

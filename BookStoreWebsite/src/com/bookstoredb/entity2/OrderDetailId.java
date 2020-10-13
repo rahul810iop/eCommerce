@@ -15,11 +15,25 @@ public class OrderDetailId implements java.io.Serializable {
 
 	private Book book;
 	private BookOrder bookOrder;
+	private int quantity;
+	private float subTotal;
 	
 	public OrderDetailId() {
 	}
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    public OrderDetailId(int quantity, float subTotal) {
+		this.quantity = quantity;
+		this.subTotal = subTotal;
+	}
+
+	public OrderDetailId(Book book, BookOrder bookOrder, int quantity, float subTotal) {
+		this.book = book;
+		this.bookOrder = bookOrder;
+		this.quantity = quantity;
+		this.subTotal = subTotal;
+	}
+
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "book_id", insertable = false, updatable = false, nullable = false)
 	public Book getBook() {
     	return this.book;
@@ -48,6 +62,22 @@ public class OrderDetailId implements java.io.Serializable {
 		return result;
 	}
 
+
+	public int getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
+	}
+
+	public float getSubTotal() {
+		return subTotal;
+	}
+
+	public void setSubTotal(float subTotal) {
+		this.subTotal = subTotal;
+	}
 
 	@Override
 	public boolean equals(Object obj) {

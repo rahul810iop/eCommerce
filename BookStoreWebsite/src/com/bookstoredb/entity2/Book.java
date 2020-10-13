@@ -63,7 +63,7 @@ public class Book implements java.io.Serializable {
 	}
 	
 	public Book(int bookId) {
-		
+		this.bookId = bookId;
 	}
 
 	public Book(Category category, String title, String author, String description, String isbn, byte[] image,
