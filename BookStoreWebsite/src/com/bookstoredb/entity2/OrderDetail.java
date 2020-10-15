@@ -20,7 +20,7 @@ import javax.persistence.Table;
 @Table(name = "order_detail", catalog = "bookstoredb")
 public class OrderDetail implements java.io.Serializable {
 
-	private OrderDetailId id;
+	private OrderDetailId id = new OrderDetailId();
 	private Book book;
 	private BookOrder bookOrder;
 	private int quantity;

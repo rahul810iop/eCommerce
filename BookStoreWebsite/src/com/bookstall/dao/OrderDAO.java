@@ -16,15 +16,13 @@ public class OrderDAO extends JpaDAO<BookOrder> implements GenericDAO<BookOrder>
 	}
 
 	@Override
-	public BookOrder update(BookOrder t) {
-		// TODO Auto-generated method stub
-		return null;
+	public BookOrder update(BookOrder order) {
+		return super.update(order);
 	}
 
 	@Override
-	public BookOrder get(Object id) {
-		// TODO Auto-generated method stub
-		return null;
+	public BookOrder get(Object orderId) {
+		return super.find(BookOrder.class, orderId);
 	}
 
 	@Override
@@ -35,8 +33,7 @@ public class OrderDAO extends JpaDAO<BookOrder> implements GenericDAO<BookOrder>
 
 	@Override
 	public List<BookOrder> listAll() {
-		// TODO Auto-generated method stub
-		return null;
+		return super.findWithNamedQuery("BookOrder.findAll");
 	}
 
 	@Override
