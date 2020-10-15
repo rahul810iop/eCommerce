@@ -42,7 +42,7 @@
      </div>
      
      <div>
-         <a href="orders">
+         <a href="list_order">
             <img src="../images/orders.png" width="50" height="50" /><br/>Orders
          </a>
      </div>  

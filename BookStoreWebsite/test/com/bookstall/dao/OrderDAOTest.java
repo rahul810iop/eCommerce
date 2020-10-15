@@ -3,6 +3,7 @@ package com.bookstall.dao;
 import static org.junit.Assert.*;
 
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -106,11 +107,48 @@ public class OrderDAOTest {
 		BookOrder order = orderDAO.get(orderId);
 		
 		System.out.println(order.getShippingAddress());
-		order.setShippingAddress("Chandigarh, Punjab");
+		order.setShippingAddress("Patna Bihar");
 		
 		orderDAO.update(order);
 		System.out.println(order.getShippingAddress());
-		assertNotEquals(order.getShippingAddress(), "Donar Darbhanga");
+		assertNotEquals(order.getShippingAddress(), "Patna Bihar");
+	}
+	
+	@SuppressWarnings("deprecation")
+	@Test
+	public void testUpdateBookOrderDetail() {
+		Integer orderId = 27;
+		BookOrder order = orderDAO.get(orderId);
+		Iterator<OrderDetail> iterator = order.getOrderDetails().iterator();
+
+		while(iterator.hasNext()) {
+			OrderDetail orderDetail = iterator.next();
+			if(orderDetail.getBook().getBookId() == 48) {
+				orderDetail.setQuantity(2);
+				orderDetail.setSubtotal(2862.0f);
+			}
+		}
+		
+		orderDAO.update(order);
+		
+		BookOrder updatedOrder = orderDAO.get(orderId);
+
+		iterator = order.getOrderDetails().iterator();
+
+		int expQ = 2, actualQ = 0;
+		float expS = 2862.0f, actualS = 0;
+		
+		while(iterator.hasNext()) {
+			OrderDetail orderDetail = iterator.next();
+			if(orderDetail.getBook().getBookId() == 48) {
+				actualQ = orderDetail.getQuantity();
+				actualS = orderDetail.getSubtotal();
+			}
+		}
+
+		
+		assertEquals(expQ, actualQ);
+		assertEquals(expS, actualS, 0.0f);
 	}
 
 	@Test
@@ -125,8 +163,13 @@ public class OrderDAOTest {
 	}
 
 	@Test
-	public void testDeleteObject() {
-		fail("Not yet implemented");
+	public void testDeleteOrder() {
+		int orderId = 26;
+		orderDAO.delete(orderId);
+		
+		BookOrder order = orderDAO.get(orderId);
+		
+		assertNull(order);
 	}
 
 	@Test
@@ -143,7 +186,9 @@ public class OrderDAOTest {
 
 	@Test
 	public void testCount() {
-		fail("Not yet implemented");
+		long totalOrders = orderDAO.count(); 
+		
+		assertEquals(totalOrders, 2);
 	}
 
 }
