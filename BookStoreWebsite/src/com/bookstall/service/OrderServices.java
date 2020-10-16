@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.bookstall.dao.OrderDAO;
 import com.bookstoredb.entity2.BookOrder;
 
-public class OrderServices {
+public class OrderServices extends CommonUtility {
 	private OrderDAO orderDAO;
 	private HttpServletResponse response;
     private HttpServletRequest request;
@@ -29,6 +29,26 @@ public class OrderServices {
 		
 		String listPage = "order_list.jsp";
 		RequestDispatcher dispatcher = request.getRequestDispatcher(listPage);
+		dispatcher.forward(request, response);
+	}
+
+	public void viewOrderDetailForAdmin() throws ServletException, IOException {
+		int orderId = Integer.parseInt(request.getParameter("id"));
+				
+		BookOrder order = orderDAO.get(orderId);
+				
+		if (order != null) {
+			request.setAttribute("order", order);
+			forwardToPage("order_detail.jsp", request, response);
+		} else {
+			String message = "Could not find order with ID " + orderId;
+			showMessageBackend(message, request, response);
+		}
+    }
+
+	public void showCheckoutForm() throws ServletException, IOException {
+		String checkOutPage = "frontend/checkout.jsp";
+		RequestDispatcher dispatcher = request.getRequestDispatcher(checkOutPage);
 		dispatcher.forward(request, response);
 	}
 }

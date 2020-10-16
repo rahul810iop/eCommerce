@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
     <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
+    <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -35,20 +36,21 @@
                 <th>Payment Method</th>
                 <th>Status</th>
                 <th>Order Date</th>
-                <td>Actions</th>
+                <th>Actions</th>
             </tr>
             <c:forEach var="order" items="${listOrder}" varStatus="status">
             <tr>
                  <td>${status.index + 1}</td>  
                  <td>${order.orderId}</td>   
                  <td>${order.customer.fullname}</td>   
-                 <td>${order.}</td>
-                 <td>${order.total}</td>
+                 <td>${order.bookCopies}</td>
+                 <td>&#8377; <fmt:formatNumber value="${order.total}" /></td>
                  <td>${order.paymentMethod}</td>
                  <td>${order.status}</td>
                  <td>${order.orderDate}</td>
-                 <td><a href="edit_order?id=${order.orderId}">Edit</a>  &nbsp;
-                     <a href="javascript:void(0);" class="deleteLink" id="${order.orderId}">Delete</a> &nbsp;
+                 <td><a href="view_order?id=${order.orderId}">Details</a>
+		             <a href="edit_order?id=${order.orderId}">Edit</a>  &nbsp;
+		             <a href="javascript:void(0);" class="deleteLink" id="${order.orderId}">Delete</a> &nbsp;
                  </td>
             </tr>
             </c:forEach>

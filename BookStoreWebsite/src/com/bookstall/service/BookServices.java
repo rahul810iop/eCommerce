@@ -16,10 +16,11 @@ import javax.servlet.http.Part;
 
 import com.bookstall.dao.BookDAO;
 import com.bookstall.dao.CategoryDAO;
+import com.bookstall.dao.OrderDAO;
 import com.bookstoredb.entity2.Book;
 import com.bookstoredb.entity2.Category;
 
-public class BookServices {
+public class BookServices extends CommonUtility{
 	private BookDAO bookDAO;
 	private CategoryDAO categoryDAO;
     private HttpServletResponse response;
@@ -177,24 +178,32 @@ public class BookServices {
 	public void deleteBook() throws ServletException, IOException {
 		Integer bookId = Integer.parseInt(request.getParameter("id"));
 		Book book =  bookDAO.get(bookId);
-		
+		String message = "";
 		if (book == null) {
-			String message = "Could not find book with ID " + bookId 
+			message = "Could not find book with ID " + bookId 
 					+ ", or it might have been deleted";
-			request.setAttribute("message", message);
-			request.getRequestDispatcher("message.jsp").forward(request, response);
+			showMessageBackend(message, request, response);
 			
-		} else {
+		} else {			
 			if (!book.getReviews().isEmpty()) {
-				String message = "Could not delete the book with ID " + bookId
+				message = "Could not delete the book with ID " + bookId
 						+ " because it has reviews";
-				listBooks(message);
+				showMessageBackend(message, request, response);
 			} else {
-				String message = "The book has been deleted successfully.";
-				bookDAO.delete(bookId);			
-				listBooks(message);		
-		    }
+				OrderDAO orderDAO = new OrderDAO();
+				long countByOrder = orderDAO.countOrderDetailByBook(bookId);
+				
+				if (countByOrder > 0) {
+					message = "Could not delete book with ID " + bookId
+							+ " because there are orders associated with it.";
+					showMessageBackend(message, request, response);
+				} else {
+					message = "The book has been deleted successfully.";
+					bookDAO.delete(bookId);			
+				}
+			}
 		}
+		listBooks(message);
 	  }
 
 	public void listBookByCategory() throws ServletException, IOException {

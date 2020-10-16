@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.bookstall.dao.CustomerDAO;
+import com.bookstall.dao.OrderDAO;
 import com.bookstall.dao.ReviewDAO;
 import com.bookstoredb.entity2.Book;
 import com.bookstoredb.entity2.Customer;
@@ -97,25 +98,36 @@ public class CustomerServices extends CommonUtility{
 	public void deleteCustomer() throws ServletException, IOException {
 		Integer customerId = Integer.parseInt(request.getParameter("id"));
 		Customer customer = customerDAO.get(customerId);
+		String message="";
 		
 		if (customer != null) {
 			ReviewDAO reviewDAO = new ReviewDAO();
 			long reviewCount = reviewDAO.countByCustomer(customerId);
 			
-			if (reviewCount == 0) {
-				customerDAO.delete(customerId);			
-				String message = "The customer has been deleted successfully.";
-				listCustomers(message);
-			} else {
-				String message = "Could not delete customer with ID " + customerId
+			if (reviewCount > 0) {
+				message = "Could not delete customer with ID " + customerId
 						+ " because he/she posted reviews for books.";
-				listCustomers(message);
+				showMessageBackend(message, request, response);
+			} else {
+				OrderDAO orderDAO = new OrderDAO();
+				long orderCount = orderDAO.countByCustomer(customerId);
+				
+				if (orderCount > 0) {
+					message = "Could not delete customer with ID " + customerId 
+							+ " because he/she placed orders.";
+					showMessageBackend(message, request, response);
+				} else {
+					customerDAO.delete(customerId);			
+					message = "The customer has been deleted successfully.";
+					//listCustomers(message);
+				}
 			}
 		} else {
-			String message = "Could not find customer with ID " + customerId + ", "
+			message = "Could not find customer with ID " + customerId + ", "
 					+ "or it has been deleted by another admin";
 			showMessageBackend(message, request, response);
 		}
+		listCustomers(message);
 	}
 	
 	public void registerCustomer() throws ServletException, IOException {
@@ -221,4 +233,5 @@ public class CustomerServices extends CommonUtility{
 		
 		showCustomerProfile();
 	}
-	}
+	
+}
