@@ -6,17 +6,17 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Edit Orders - Bookstall Administration</title>
-<link rel="icon" type="image/jpg" href="../images/book.jpg">
-<link rel="stylesheet" href="../css/style.css">
-<script type="text/javascript" src="../js/jquery-3.3.1.min.js"></script>
-<script type="text/javascript" src="../js/jquery.validate.min.js"></script>
+<title>Update Order - Bookstall</title>
+<link rel="icon" type="image/jpg" href="images/book.jpg">
+<link rel="stylesheet" href="css/style.css">
+<script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="js/jquery.validate.min.js"></script>
 </head>
 <body>
      <jsp:directive.include file="header.jsp" />
      
      <div align="center">
-          <h2 class="pageheading">Edit Order ID: ${order.orderId}</h2>
+          <h2 class="pageheading">Update Order ID: ${order.orderId}</h2>
      </div>
      
      <c:if test="${message != null }">
@@ -25,7 +25,7 @@
 	     </div>
 	 </c:if>
      
-     <form action="update_order" method="post" id="orderForm">
+     <form action="update_frontend_order" method="post" id="orderForm">
      <div align="center">
      	<h2>Order Overview</h2>
      	<table>
@@ -62,17 +62,6 @@
      			</td>
      		</tr>
      		<tr>
-     			<td><b>Order Status: </b></td>
-     			<td>
-     				<select name="orderStatus" >
-     					<option value="Processing" <c:if test="${order.status eq 'Processing' }">selected='selected'</c:if> >Processing</option>
-						<option value="Shipping" <c:if test="${order.status eq 'Shipping' }">selected='selected'</c:if>>Shipping</option>
-						<option value="Delivered" <c:if test="${order.status eq 'Delivered' }">selected='selected'</c:if>>Delivered</option>
-						<option value="Completed" <c:if test="${order.status eq 'Completed' }">selected='selected'</c:if>>Completed</option>
-						<option value="Cancelled" <c:if test="${order.status eq 'Cancelled' }">selected='selected'</c:if>>Cancelled</option>
-     				</select>
-     			</td>
-     		</tr>
      	</table>
      </div>
      <div align="center">
@@ -104,7 +93,7 @@
 	     				<input type="text" name="quantity${status.index + 1}" value="${orderDetail.quantity}" size="5" />
 	     			</td>
 	     			<td>&#8377; <fmt:formatNumber value="${orderDetail.subtotal}"/></td>
-	     	    	<td><a href="remove_book_from_order?id=${orderDetail.book.bookId}">Remove</a></td>
+	     	    	<td><a href="remove_book_from_frontend_order?id=${orderDetail.book.bookId}">Remove</a></td>
 	     	    </tr>
      		</c:forEach>
      		<tr>
@@ -120,7 +109,7 @@
     	    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     	    <input type="submit" value="Save" />
     	     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    	    <input type="button" value="Cancel" onClick="javascript:window.location.href='list_order';"/>    
+    	    <input type="button" value="Cancel" onClick="javascript:window.location.href='view_orders';"/>    
     </div>
     </form>
      <jsp:directive.include file="footer.jsp" />

@@ -9,18 +9,18 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.bookstall.service.OrderServices;
 
-@WebServlet("/admin/edit_order")
-public class EditOrderServlet extends HttpServlet {
+@WebServlet("/admin/update_order")
+public class UpdateOrderServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-    public EditOrderServlet() {
+    public UpdateOrderServlet() {
         super();
     }
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) 
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException {
 		OrderServices orderServices = new OrderServices(request, response);
-		orderServices.showEditOrderForm();
+		orderServices.updateOrder();
 	}
 
 }

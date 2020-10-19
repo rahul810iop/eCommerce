@@ -99,9 +99,9 @@
      </div>
     <div align="center">
     	<br>
-    	<a href="edit_order?id">Edit this Order</a>
+    	<a href="edit_order?id=${order.orderId}">Edit this Order</a>
     	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    	<a href="edit_order?id">Delete this Order</a>
+    	<a href="edit_order?id=">Delete this Order</a>
     </div>
      <jsp:directive.include file="footer.jsp" />
      

@@ -1,4 +1,4 @@
-package com.bookstall.controller.admin.order;
+package com.bookstall.controller.frontend.order;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -9,18 +9,18 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.bookstall.service.OrderServices;
 
-@WebServlet("/admin/edit_order")
-public class EditOrderServlet extends HttpServlet {
+@WebServlet("/edit_frontend_order")
+public class EditFrontendOrderServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-    public EditOrderServlet() {
+    public EditFrontendOrderServlet() {
         super();
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException {
 		OrderServices orderServices = new OrderServices(request, response);
-		orderServices.showEditOrderForm();
+		orderServices.showEditFrontendOrderForm();
 	}
 
 }

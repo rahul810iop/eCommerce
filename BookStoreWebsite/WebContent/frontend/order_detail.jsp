@@ -30,7 +30,9 @@
      	<table>
      		<tr>
      			<td><b>Order Status: </b></td>
-     			<td>${order.status}</td>
+		     	<td>
+		   			${order.status}
+	 			</td>
      		</tr>
      		<tr>
      			<td><b>Order Date: </b></td>
@@ -94,6 +96,16 @@
      	</table>
      </div>
     </c:if>
+    
+    <c:if test="${order.status eq 'Processing' || order.status eq 'Shipping'}">
+	    <div align="center">
+	    	<br/>
+	    	<a href="edit_frontend_order?id=${order.orderId}">Update Order</a>
+	    	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	    	<a href="cancel_order">Cancel Order</a>
+	    </div>
+    </c:if>
+    
      <jsp:directive.include file="footer.jsp" />
      
 </body>

@@ -32,7 +32,16 @@ public class OrderServices extends CommonUtility {
 	}
 
 	public void listAllOrder() throws ServletException, IOException {
+		listAllOrder(null);
+	}
+	
+	public void listAllOrder(String message) throws ServletException, IOException {
 		List<BookOrder> listOrder = orderDAO.listAll();
+		
+		if(message != null) {
+			request.setAttribute("listOrder", listOrder);
+			request.setAttribute("message", message);
+		}
 		
 		request.setAttribute("listOrder", listOrder);
 		
@@ -142,7 +151,7 @@ public class OrderServices extends CommonUtility {
 		
 	}
 
-	public void showEditForm() throws ServletException, IOException {
+	public void showEditOrderForm() throws ServletException, IOException {
 		Integer orderId = Integer.parseInt(request.getParameter("id"));		
 		BookOrder order = orderDAO.get(orderId);
 		
@@ -162,5 +171,80 @@ public class OrderServices extends CommonUtility {
 		}
 		
 		forwardToPage("order_form.jsp", request, response);
+	}
+
+	public void updateOrder() throws ServletException, IOException {
+		HttpSession session = request.getSession();
+		BookOrder order = (BookOrder) session.getAttribute("order");
+		
+		String recipientName = request.getParameter("recipientName");
+		String recipientPhone = request.getParameter("recipientPhone");
+		String shippingAddress = request.getParameter("shippingAddress");
+		String paymentMethod = request.getParameter("paymentMethod");
+		String orderStatus = request.getParameter("orderStatus");
+		
+		order.setRecipientName(recipientName);
+		order.setRecipientPhone(recipientPhone);
+		order.setShippingAddress(shippingAddress);
+		order.setPaymentMethod(paymentMethod);
+		order.setStatus(orderStatus);
+		
+		String[] arrayBookId = request.getParameterValues("bookId");
+		String[] arrayPrice = request.getParameterValues("price");
+		String[] arrayQuantity = new String[arrayBookId.length];
+		
+		for(int i = 1; i <= arrayQuantity.length; i++) {
+			arrayQuantity[i - 1] = request.getParameter("quantity" + i);
+		}
+		
+		Set<OrderDetail> orderDetails = order.getOrderDetails();
+		orderDetails.clear();
+		
+		float totalAmount = 0.0f;
+		
+		for(int i = 0; i < arrayBookId.length; i++) {
+			int bookId = Integer.parseInt(arrayBookId[i]);
+			int quantity = Integer.parseInt(arrayQuantity[i]);
+			float price = Float.parseFloat(arrayPrice[i]);
+		
+			float subtotal = price * quantity;
+			
+			OrderDetail orderDetail = new OrderDetail();
+			orderDetail.setBook(new Book(bookId));
+			orderDetail.setQuantity(quantity);
+			orderDetail.setBookOrder(order);
+			orderDetail.setSubtotal(subtotal);
+			
+			orderDetails.add(orderDetail);
+			
+			totalAmount += subtotal;
+		}
+		
+		order.setTotal(totalAmount);
+		
+		orderDAO.update(order);
+		
+		String message = "The Order " + order.getOrderId() + " has been updated successfully";
+		
+		listAllOrder(message);
+	}
+
+	public void showEditFrontendOrderForm() throws ServletException, IOException {
+		Integer orderId = Integer.parseInt(request.getParameter("id"));		
+		BookOrder order = orderDAO.get(orderId);
+		
+		HttpSession session = request.getSession();
+		Object isPendingBook = session.getAttribute("NewBookPendingToAddToOrder");
+		
+		if (isPendingBook == null) {			
+			session.setAttribute("order", order);
+		} else {
+			session.removeAttribute("NewBookPendingToAddToOrder");
+		}
+		
+		String orderFrontendFrom = "frontend/order_frontend_form.jsp";
+		RequestDispatcher dispatcher = request.getRequestDispatcher(orderFrontendFrom);
+		dispatcher.forward(request, response);
+		
 	}
 }
