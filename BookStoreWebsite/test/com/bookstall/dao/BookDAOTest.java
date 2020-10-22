@@ -1,9 +1,12 @@
 package com.bookstall.dao;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
-import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.text.DateFormat;
@@ -221,4 +224,25 @@ public class BookDAOTest {
 	    assertEquals(6, numOfBooks);
 	}
 	
+	@Test
+	public void testListBestSellingBooks() {
+		List<Book> listBestSellingBooks = bookDAO.listBestSellingBooks();
+	
+		for(Book book : listBestSellingBooks) {
+			System.out.println(book.getTitle());
+		}
+		
+		assertTrue(listBestSellingBooks.size() > 0);
+	}
+	
+	@Test
+	public void testMostFavoredBooks() {
+		List<Book> listMostFavoredBooks = bookDAO.listMostFavoredBooks(); 
+		
+		for(Book book : listMostFavoredBooks) {
+			System.out.println(book.getTitle());
+		}
+		
+		assertTrue(listMostFavoredBooks.size() > 0);
+	}
 }

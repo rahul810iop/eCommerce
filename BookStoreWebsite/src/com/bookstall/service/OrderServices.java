@@ -125,12 +125,20 @@ public class OrderServices extends CommonUtility {
 		dispatcher.forward(request, response);
 		
 	}
-
+	
 	public void listOrderByCustomer() throws ServletException, IOException {
+		listOrderByCustomer(null);
+	}
+	
+	public void listOrderByCustomer(String message) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		Customer customer = (Customer) session.getAttribute("loggedCustomer");
 		List<BookOrder> listOrders = orderDAO.listByCustomer(customer.getCustomerId());
 	
+		if(message != null) {
+			request.setAttribute("message", message);
+			request.setAttribute("listOrders", listOrders);
+		}
 		request.setAttribute("listOrders", listOrders);
 		
 		String historyPage = "frontend/order_list.jsp";
@@ -245,6 +253,99 @@ public class OrderServices extends CommonUtility {
 		String orderFrontendFrom = "frontend/order_frontend_form.jsp";
 		RequestDispatcher dispatcher = request.getRequestDispatcher(orderFrontendFrom);
 		dispatcher.forward(request, response);
+		
+	}
+
+	public void updateOrderInFrontend() throws ServletException, IOException {
+		HttpSession session = request.getSession();
+		BookOrder order = (BookOrder) session.getAttribute("order");
+		
+		String recipientName = request.getParameter("recipientName");
+		String recipientPhone = request.getParameter("recipientPhone");
+		String shippingAddress = request.getParameter("shippingAddress");
+		String paymentMethod = request.getParameter("paymentMethod");
+		//String orderStatus = request.getParameter("orderStatus");
+		
+		order.setRecipientName(recipientName);
+		order.setRecipientPhone(recipientPhone);
+		order.setShippingAddress(shippingAddress);
+		order.setPaymentMethod(paymentMethod);
+		order.setStatus("Processing");
+		
+		String[] arrayBookId = request.getParameterValues("bookId");
+		String[] arrayPrice = request.getParameterValues("price");
+		String[] arrayQuantity = new String[arrayBookId.length];
+		
+		for(int i = 1; i <= arrayQuantity.length; i++) {
+			arrayQuantity[i - 1] = request.getParameter("quantity" + i);
+		}
+		
+		Set<OrderDetail> orderDetails = order.getOrderDetails();
+		orderDetails.clear();
+		
+		float totalAmount = 0.0f;
+		
+		for(int i = 0; i < arrayBookId.length; i++) {
+			int bookId = Integer.parseInt(arrayBookId[i]);
+			int quantity = Integer.parseInt(arrayQuantity[i]);
+			float price = Float.parseFloat(arrayPrice[i]);
+		
+			float subtotal = price * quantity;
+			
+			OrderDetail orderDetail = new OrderDetail();
+			orderDetail.setBook(new Book(bookId));
+			orderDetail.setQuantity(quantity);
+			orderDetail.setBookOrder(order);
+			orderDetail.setSubtotal(subtotal);
+			
+			orderDetails.add(orderDetail);
+			
+			totalAmount += subtotal;
+		}
+		
+		order.setTotal(totalAmount);
+		
+		orderDAO.update(order);
+		
+		String message = "Your Order with Order ID " + order.getOrderId() + " has been updated successfully";
+		request.setAttribute("message", message);
+		String messagePage = "frontend/message.jsp";
+		RequestDispatcher dispatcher = request.getRequestDispatcher(messagePage);
+		dispatcher.forward(request, response);
+	}
+
+	public void cancelOrder() throws ServletException, IOException {
+		int orderId = Integer.parseInt(request.getParameter("id"));
+		
+		BookOrder order = orderDAO.get(orderId);
+		order.setStatus("Cancelled");
+		
+		orderDAO.update(order);
+		
+		String message = "Your Order with Order ID " + order.getOrderId() + " has been cancelled successfully "
+				+ ", if order was paid your money will be credited within 3 business days";
+		request.setAttribute("message", message);
+		String messagePage = "frontend/message.jsp";
+		RequestDispatcher dispatcher = request.getRequestDispatcher(messagePage);
+		dispatcher.forward(request, response);
+	}
+
+	public void deleteOrder() throws ServletException, IOException {
+		int orderId = Integer.parseInt(request.getParameter("id"));
+		
+		BookOrder order = orderDAO.get(orderId);
+		String message="";
+		
+		if(order != null) {
+			orderDAO.delete(orderId);
+			
+			message = "The order with orderId " + orderId + " has been deleted successfully.";
+		}
+		else {
+			message = "The order with orderId " + orderId + " is not present or may be deleted by another admin"
+		+" or the order bill might have been paid";
+		}
+		listAllOrder(message);
 		
 	}
 }

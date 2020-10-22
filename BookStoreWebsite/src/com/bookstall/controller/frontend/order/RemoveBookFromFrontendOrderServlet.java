@@ -29,7 +29,8 @@ public class RemoveBookFromFrontendOrderServlet extends HttpServlet {
 		
 		HttpSession session = request.getSession();
 		BookOrder order = (BookOrder) session.getAttribute("order");
-	
+		System.out.println(order.getPaymentMethod());
+		
 		Set<OrderDetail> orderDetails = order.getOrderDetails();
 		Iterator<OrderDetail> iterator = orderDetails.iterator();
 		

@@ -74,9 +74,9 @@
      $(document).ready(function() {
 			$(".deleteLink").each(function() {
 				$(this).on("click", function() {
-					reviewId = $(this).attr("id");
-					if (confirm('Are you sure you want to delete the review with ID ' +  reviewId + '?')) {
-						window.location = 'delete_review?id=' + reviewId;
+					orderId = $(this).attr("id");
+					if (confirm('Are you sure you want to delete the order with ID ' +  orderId + '?')) {
+						window.location = 'delete_order?id=' + orderId;
 					}					
 				});
 			});

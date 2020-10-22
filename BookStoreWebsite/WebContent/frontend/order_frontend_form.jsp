@@ -25,7 +25,7 @@
 	     </div>
 	 </c:if>
      
-     <form action="update_frontend_order" method="post" id="orderForm">
+     <form action="update_frontend_order" method="post" id="orderFrontendForm">
      <div align="center">
      	<h2>Order Overview</h2>
      	<table>
@@ -105,7 +105,7 @@
      </div>
     <div align="center">
     	<br>
-    	    <a href="javascript:showAddBookPopup()"><b>Add Books</b></a>
+    	    <a href="javascript:showAddBookInFrontendPopup()"><b>Add Books</b></a>
     	    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     	    <input type="submit" value="Save" />
     	     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -115,17 +115,17 @@
      <jsp:directive.include file="footer.jsp" />
      
      <script>
-     	function showAddBookPopup() {
+     	function showAddBookInFrontendPopup() {
      		var width = 600;
      		var height = 300;
      		var left = (screen.width - width) / 2;
      		var top = (screen.height - height) / 2;
      		
-     		window.open('add_book_form', '_blank', 
+     		window.open('add_book_in_frontend_form', '_blank', 
 					'width=' + width + ', height=' + height + ', top=' + top + ', left=' + left);
      	}
      $(document).ready(function() {	
-     	$("#orderForm").validate({
+     	$("#orderFrontendForm").validate({
     		rules: {	
     			recipientName: "required",
     			recipientPhone: "required",

@@ -118,4 +118,11 @@ public class ReviewDAOTest {
 		System.out.println(review.getHeadline() + "  " + review.getRating());
 		assertTrue(review != null);
 	}
+	
+	@Test
+	public void testListMostRecentReviews() {
+		List<Review> listMostRecentReviews = reviewDAO.listMostRecentReviews();
+
+		assertTrue(listMostRecentReviews.size() > 0);
+	}
 }

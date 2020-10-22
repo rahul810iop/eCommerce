@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Bookstall Administration</title>
+<title>Bookstall - Online book store</title>
 <link rel="icon" type="image/jpg" href="images/book.jpg">
 <link rel="stylesheet" href="css/style.css">
 </head>

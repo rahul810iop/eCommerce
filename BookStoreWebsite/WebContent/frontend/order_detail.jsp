@@ -9,8 +9,8 @@
 <title>My Orders Details - Bookstall</title>
 <link rel="icon" type="image/jpg" href="images/book.jpg">
 <link rel="stylesheet" href="css/style.css">
-<script type="text/javascript" src="../js/jquery-3.3.1.min.js"></script>
-<script type="text/javascript" src="../js/jquery.validate.min.js"></script>
+<script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="js/jquery.validate.min.js"></script>
 </head>
 <body>
      <jsp:directive.include file="header.jsp" />
@@ -102,11 +102,24 @@
 	    	<br/>
 	    	<a href="edit_frontend_order?id=${order.orderId}">Update Order</a>
 	    	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-	    	<a href="cancel_order">Cancel Order</a>
+	    	<a href="javascript:void(0);" class="cancelLink" id="${order.orderId}">Cancel Order</a>
 	    </div>
     </c:if>
     
      <jsp:directive.include file="footer.jsp" />
+     
+ <script>
+ $(document).ready(function() {
+		$(".cancelLink").each(function() {
+			$(this).on("click", function() {
+				orderId = $(this).attr("id");
+				if (confirm('Are you sure you want to cancel the order with ID ' +  orderId + '?')) {
+					window.location = 'cancel_order?id=' + orderId;
+				}					
+			});
+		});
+	});
+ </script>  
      
 </body>
 </html>

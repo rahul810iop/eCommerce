@@ -53,11 +53,11 @@
      			<td><b>Payment Method: </b></td>
      			<td>
      				<select name="paymentMethod">
-      						<option value="Cash On Delivery">Cash On Delivery</option>
-      						<option value="Credit Card">Credit Card</option>
-      						<option value="Debit Card">Debit Card</option>
-      						<option value="UPI">UPI</option>
-      						<option value="Wallets">Wallets</option>
+      						<option value="Cash On Delivery" <c:if test="${order.paymentMethod eq 'Cash on Delivery' }">selected='selected'</c:if> >Cash on delivery</option>
+      						<option value="Credit Card" <c:if test="${order.paymentMethod eq 'Credit Card' }">selected='selected'</c:if> >Credit Card</option>
+      						<option value="Debit Card" <c:if test="${order.paymentMethod eq 'Debit Card' }">selected='selected'</c:if> >Debit Card</option>
+      						<option value="UPI" <c:if test="${order.paymentMethod eq 'UPI' }">selected='selected'</c:if> >UPI</option> 
+      						<option value="Wallets" <c:if test="${order.paymentMethod eq 'Wallets' }">selected='selected'</c:if> >Wallets</option>
      				</select>	
      			</td>
      		</tr>

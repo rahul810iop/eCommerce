@@ -99,7 +99,7 @@
       					Choose your Payment method:
       					&nbsp;&nbsp;&nbsp;
       					<select name="paymentMethod">
-      						<option value="Cash On Delivery">Cash On Delivery</option>
+      						<option value="Cash on Delivery">Cash on Delivery</option>
       						<option value="Credit Card">Credit Card</option>
       						<option value="Debit Card">Debit Card</option>
       						<option value="UPI">UPI</option>
