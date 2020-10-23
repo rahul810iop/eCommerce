@@ -10,8 +10,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.bookstall.dao.BookDAO;
+import com.bookstall.dao.CustomerDAO;
 import com.bookstall.dao.OrderDAO;
 import com.bookstall.dao.ReviewDAO;
+import com.bookstall.dao.UserDAO;
 import com.bookstoredb.entity2.BookOrder;
 import com.bookstoredb.entity2.Review;
 
@@ -27,15 +30,30 @@ public class AdminHomeServlet extends HttpServlet {
     	
     	OrderDAO orderDAO = new OrderDAO();
     	ReviewDAO reviewDAO = new ReviewDAO();
+    	BookDAO bookDAO = new BookDAO();
+    	CustomerDAO customerDAO = new CustomerDAO();
+    	UserDAO userDAO = new UserDAO();
     	
     	List<BookOrder> listMostRecentSales = orderDAO.listMostRecentSales();
     	List<Review> listMostRecentReviews = reviewDAO.listMostRecentReviews();
+    	
+    	long totalBooksOnStrore = bookDAO.count();
+    	long totalCustomersOnBookstall = customerDAO.count();
+    	long totalAdmins = userDAO.count();
+    	long totalOrders = orderDAO.count();
+    	long totalReviews = reviewDAO.count();
     	
     	String homepage = "index.jsp";
 		System.out.println("AdminHomeServlet");
 		
 		request.setAttribute("listMostRecentSales", listMostRecentSales);
 		request.setAttribute("listMostRecentReviews", listMostRecentReviews);
+		
+		request.setAttribute("totalBooksOnStrore", totalBooksOnStrore);
+		request.setAttribute("totalCustomersOnBookstall", totalCustomersOnBookstall);
+		request.setAttribute("totalAdmins", totalAdmins);
+		request.setAttribute("totalOrders", totalOrders);
+		request.setAttribute("totalReviews", totalReviews);
 		
 		RequestDispatcher dispatcher = request.getRequestDispatcher(homepage);
 		dispatcher.forward(request, response);

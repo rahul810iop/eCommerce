@@ -66,8 +66,28 @@
         </div>
         
         <div class="next-row">   
-           <h2>Most-favorite Books</h2>
-           
+           <h2 class="pageheading">Most-favorite Books</h2>
+           	<c:forEach items="${listMostFavoredBooks}" var="book">
+              <div style="display: inline-block;margin: 10px">
+                 <div>
+                     <a href="view_book?id=${book.bookId}">
+                       <img src="data:image/jpg;base64,${book.base64Image}" width="128" height="164"/>
+                     </a>
+                 </div>
+               <a href="view_book?id=${book.bookId}">
+                  <div><b>${book.title}</b></div>
+               </a>   
+                  <div>
+                  		<jsp:directive.include file="book_rating.jsp" />	
+                  </div>
+                  
+                  <div>
+                  		<i>by ${book.author}</i>
+                  </div>
+                  <div><b>&#8377; ${book.price}</b></div>
+             </div>
+              
+          </c:forEach>
            <br></br>
         </div>   
      </div>
