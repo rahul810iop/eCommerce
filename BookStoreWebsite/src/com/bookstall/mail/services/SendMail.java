@@ -27,7 +27,7 @@ public class SendMail {
 	private final String from = "1815904.cse.coe@cgc.edu.in";
 	private String message;
 	private String subject;
-	private final String password = "9718742810";
+	private final String password = "..."; //enter your email password
 	//private Customer customer;
 	
 	public SendMail() {		
