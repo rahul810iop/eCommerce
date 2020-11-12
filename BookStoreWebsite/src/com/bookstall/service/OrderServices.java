@@ -15,6 +15,7 @@ import javax.servlet.http.HttpSession;
 
 import com.bookstall.controller.frontend.shoppingcart.ShoppingCart;
 import com.bookstall.dao.OrderDAO;
+import com.bookstall.mail.services.SendMail;
 import com.bookstoredb.entity2.Book;
 import com.bookstoredb.entity2.BookOrder;
 import com.bookstoredb.entity2.Customer;
@@ -24,11 +25,13 @@ public class OrderServices extends CommonUtility {
 	private OrderDAO orderDAO;
 	private HttpServletResponse response;
     private HttpServletRequest request;
+    private SendMail sendMail;
     
 	public OrderServices(HttpServletRequest request, HttpServletResponse response) {
 		this.response = response;
 		this.request = request;
 		this.orderDAO = new OrderDAO();
+		this.sendMail = new SendMail();
 	}
 
 	public void listAllOrder() throws ServletException, IOException {
@@ -114,6 +117,7 @@ public class OrderServices extends CommonUtility {
 		order.setTotal(shoppingCart.getTotalAmount());
 		
 		orderDAO.create(order);
+		sendMail.sendPlaceOrderSuccessfull(customer, order);
 		
 		shoppingCart.clear();
 		
@@ -259,6 +263,7 @@ public class OrderServices extends CommonUtility {
 	public void updateOrderInFrontend() throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		BookOrder order = (BookOrder) session.getAttribute("order");
+		Customer customer = (Customer) session.getAttribute("loggedCustomer");
 		
 		String recipientName = request.getParameter("recipientName");
 		String recipientPhone = request.getParameter("recipientPhone");
@@ -307,6 +312,9 @@ public class OrderServices extends CommonUtility {
 		
 		orderDAO.update(order);
 		
+		Integer orderId = order.getOrderId();
+		sendMail.sendUpdateOrderSuccessfull(customer, orderDAO.get(orderId));
+		
 		String message = "Your Order with Order ID " + order.getOrderId() + " has been updated successfully";
 		request.setAttribute("message", message);
 		String messagePage = "frontend/message.jsp";
@@ -317,6 +325,9 @@ public class OrderServices extends CommonUtility {
 	public void cancelOrder() throws ServletException, IOException {
 		int orderId = Integer.parseInt(request.getParameter("id"));
 		
+		HttpSession session = request.getSession();
+		Customer customer = (Customer) session.getAttribute("loggedCustomer");
+		
 		BookOrder order = orderDAO.get(orderId);
 		order.setStatus("Cancelled");
 		
@@ -324,6 +335,9 @@ public class OrderServices extends CommonUtility {
 		
 		String message = "Your Order with Order ID " + order.getOrderId() + " has been cancelled successfully "
 				+ ", if order was paid your money will be credited within 3 business days";
+		
+		sendMail.sendCancelOrderSuccessfull(customer, order);
+		
 		request.setAttribute("message", message);
 		String messagePage = "frontend/message.jsp";
 		RequestDispatcher dispatcher = request.getRequestDispatcher(messagePage);

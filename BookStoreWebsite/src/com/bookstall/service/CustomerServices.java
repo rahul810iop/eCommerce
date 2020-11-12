@@ -9,9 +9,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang3.RandomStringUtils;
+
 import com.bookstall.dao.CustomerDAO;
 import com.bookstall.dao.OrderDAO;
 import com.bookstall.dao.ReviewDAO;
+import com.bookstall.mail.services.SendMail;
 import com.bookstoredb.entity2.Book;
 import com.bookstoredb.entity2.Customer;
 
@@ -19,12 +22,14 @@ public class CustomerServices extends CommonUtility{
 	private CustomerDAO customerDAO;
 	private HttpServletResponse response;
     private HttpServletRequest request;
-	
+	private SendMail sendMail;
+    
     public CustomerServices(HttpServletRequest request, HttpServletResponse response) {
 		super();
 		this.response = response;
 		this.request = request;
         this.customerDAO = new CustomerDAO();
+        this.sendMail = new SendMail();
 	}
     
     public void listCustomers() throws ServletException, IOException {
@@ -137,15 +142,17 @@ public class CustomerServices extends CommonUtility{
 		
 		if(existCustomer != null) {
 			message = "Could not register customer: the email "
-		       + email + "is already registered";
+		       + email + " is already registered";
 		}
 		else {
 			Customer newCustomer = new Customer();
 			updateCustomerFieldsFromForm(newCustomer);			
 			customerDAO.create(newCustomer);
 			
-			message = "You have regsitered successfully! Thank you "
-					 + "<a href=''>Click here to</a> login";
+			message = "You have registered successfully! Thank you "
+					 + "<a href='frontend/login.jsp'>Click here to</a> login";
+			
+			sendMail.sendRegistrationSuccessfull(newCustomer);
 			}
 		
 		String messagePage = "frontend/message.jsp";
@@ -232,6 +239,45 @@ public class CustomerServices extends CommonUtility{
 		customerDAO.update(customer);
 		
 		showCustomerProfile();
+	}
+
+	public void updateForgotPassword() throws ServletException, IOException {
+			String email = request.getParameter("email");
+		
+			Customer customer = customerDAO.findByEmail(email);
+			if(customer == null) {
+			String message = "Sorry! This email isn't registered. Register Now";
+		
+			String forgotPage = "frontend/forgot_password.jsp";
+			RequestDispatcher requestDispatcher = request.getRequestDispatcher(forgotPage);
+			request.setAttribute("message", message);
+			requestDispatcher.forward(request, response);
+		}
+		else {
+			String message = "The new Password has been sent to your mail," 
+					+ " kindly login with the new password and then change in My profile section";
+			
+			String password = RandomStringUtils.randomAlphanumeric(13);
+			
+			customer.setPassword(password);
+			customerDAO.update(customer);
+			
+			sendMail.sendRandomPasswordPassword(password, customer);
+			
+			
+			String messagePage = "frontend/message.jsp";
+			RequestDispatcher requestDispatcher = request.getRequestDispatcher(messagePage);
+			request.setAttribute("message", message);
+			requestDispatcher.forward(request, response);
+		}
+	}
+
+	public void showForgotPasswordForm() throws ServletException, IOException {
+		
+		String forgotPage = "frontend/forgot_password.jsp";
+		RequestDispatcher dispatcher = request.getRequestDispatcher(forgotPage);
+		dispatcher.forward(request, response);	
+		
 	}
 	
 }

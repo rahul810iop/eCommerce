@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -107,5 +108,15 @@ public class CustomerDAOTest {
 		
 		System.out.println(customer.getFullname());
 		assertNotNull(customer);
+	}
+	
+	@Test
+	public void testGenerateRandomString() {
+		
+		String password = RandomStringUtils.randomAlphanumeric(13);
+		
+		System.out.println(password);
+		
+		assertNotNull(password);
 	}
 }

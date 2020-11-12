@@ -105,9 +105,8 @@
      </div>
     <div align="center">
     	<br>
-    	    <a href="javascript:showAddBookInFrontendPopup()"><b>Add Books</b></a>
-    	    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    	    <input type="submit" value="Save" />
+			<h3>Click the Save button when you are sure to update your Order</h3>
+    	    <input type="submit" value="Save" id="${order.orderId}"/>
     	     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     	    <input type="button" value="Cancel" onClick="javascript:window.location.href='view_orders';"/>    
     </div>
@@ -152,7 +151,7 @@
 					},
 				</c:forEach>
     		}
-    	});
+		});
      });	
      </script>
 </body>

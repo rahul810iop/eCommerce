@@ -5,7 +5,7 @@
 <html>
 <head>
    <meta charset="ISO-8859-1">
-   <title>Customer Login</title>
+   <title>Forgot Password</title>
    <link rel="icon" type="image/jpg" href="images/book.jpg">
    <link rel="stylesheet" href="css/style.css">
    <script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
@@ -17,7 +17,7 @@
 
     <div align="center">
         
-        <h2>Customer Login</h2>
+        <h2 class="pageheading">Forgot Password</h2>
 
        <c:if test="${message != null }">
          <div align="center">
@@ -25,26 +25,21 @@
          </div>
       </c:if>
       
-        <form id="loginForm" action="login" method="post">
+        <form id="forgotForm" action="send_password" method="post">
            <table>
                <tr>
                    <td>Email:</td>
                    <td><input type="text" name="email" id="email" size="20"></td>
                </tr>
-               <tr>
-                    <td>Password:</td>
-                    <td><input type="password" name="password" id="password" size="20"></td>
-                </tr>
                 <tr>
 				<td colspan="2" align="center">
 					
-					<button type="submit">Login</button>
+					<button type="submit">Send me a password</button>
 				</td>
 			</tr>
            </table>
         </form>
         <br>
-        <button id="buttonForgotPassword">Forgot Password?</button>
     </div>
     
     <jsp:directive.include file="footer.jsp" />
@@ -52,13 +47,12 @@
 <script type="text/javascript">
 
 $(document).ready(function() {
-	$("#loginForm").validate({
+	$("#forgotForm").validate({
 		rules: {
 			email: {
 				required: true,
 				email: true
 			},
-			password: "required",
 		},
 		
 		messages: {
@@ -66,11 +60,7 @@ $(document).ready(function() {
 				required: "Please enter email",
 				email: "Please enter an valid email address"
 			},
-			password: "Please enter password"
 		}
-	});
-	$("#buttonForgotPassword").click(function() {
-		window.location = 'forgot_password';
 	});
 });
 </script>
